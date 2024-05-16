@@ -1,4 +1,5 @@
-﻿using CleanSheet.Application.Features.Careers.Commands.Create;
+﻿using CleanSheet.API.Extensions;
+using CleanSheet.Application.Features.Careers.Commands.Create;
 using CleanSheet.Application.Features.Careers.Commands.Delete;
 using CleanSheet.Application.Features.Careers.Queries.Get;
 using CleanSheet.Application.Features.Careers.Queries.GeyById;
@@ -47,9 +48,9 @@ public static class CareerEndpoints
         var query = new GetCareerByIdQuery(id);
 
         var result = await sender.Send(query);
-        
+
         if (!result.IsSuccess)
-            return TypedResults.NotFound(result);
+            return FailureExtensions.Handle(result);
         
         return TypedResults.Ok(result);
     }
@@ -63,7 +64,7 @@ public static class CareerEndpoints
         var result = await sender.Send(command);
 
         if (!result.IsSuccess)
-            return TypedResults.NotFound(result);
+            return FailureExtensions.Handle(result);
         
         return TypedResults.NoContent();
     }
