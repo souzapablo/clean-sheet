@@ -1,4 +1,5 @@
 ﻿using CleanSheet.Application.Features.Careers.Commands.Create;
+using CleanSheet.Application.Features.Careers.Commands.Delete;
 using CleanSheet.Application.Features.Careers.Queries.Get;
 using CleanSheet.Application.Features.Careers.Queries.GeyById;
 using MediatR;
@@ -16,6 +17,7 @@ public static class CareerEndpoints
         group.MapPost("", CreateAsync);
         group.MapGet("", GetAsync);
         group.MapGet("{id:guid}", GetByIdAsync);
+        group.MapDelete("{id:guid}", DeleteAsync);
     }
 
     private static async Task<IResult> CreateAsync(
@@ -50,5 +52,19 @@ public static class CareerEndpoints
             return TypedResults.NotFound(result);
         
         return TypedResults.Ok(result);
+    }
+
+    private static async Task<IResult> DeleteAsync(
+        ISender sender,
+        [FromRoute] Guid id)
+    {
+        var command = new DeleteCareerCommand(id);
+
+        var result = await sender.Send(command);
+
+        if (!result.IsSuccess)
+            return TypedResults.NotFound(result);
+        
+        return TypedResults.NoContent();
     }
 }

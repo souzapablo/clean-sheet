@@ -5,9 +5,9 @@ using MediatR;
 namespace CleanSheet.Application.Features.Careers.Queries.Get;
 
 public class GetCareerQueryHandler(ICareerRepository careerRepository) 
-    : IRequestHandler<GetCareersQuery, Result<IEnumerable<CareerResponse>>>
+    : IRequestHandler<GetCareersQuery, TypedResult<IEnumerable<CareerResponse>>>
 {
-    public async Task<Result<IEnumerable<CareerResponse>>> Handle(GetCareersQuery request, CancellationToken cancellationToken)
+    public async Task<TypedResult<IEnumerable<CareerResponse>>> Handle(GetCareersQuery request, CancellationToken cancellationToken)
     {
         var careers = await careerRepository.ListAsync(cancellationToken);
 
@@ -17,6 +17,6 @@ public class GetCareerQueryHandler(ICareerRepository careerRepository)
                 career.Manager,
                 career.LastUpdate));
 
-        return Result<IEnumerable<CareerResponse>>.Success(result);
+        return TypedResult<IEnumerable<CareerResponse>>.Success(result);
     }
 }

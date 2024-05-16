@@ -6,17 +6,17 @@ using MediatR;
 namespace CleanSheet.Application.Features.Careers.Queries.GeyById;
 
 public class GetCareerByIdQueryHandler(ICareerRepository careerRepository) 
-    : IRequestHandler<GetCareerByIdQuery, Result<CareerResponse>>
+    : IRequestHandler<GetCareerByIdQuery, TypedResult<CareerResponse>>
 {
-    public async Task<Result<CareerResponse>> Handle(GetCareerByIdQuery request, CancellationToken cancellationToken)
+    public async Task<TypedResult<CareerResponse>> Handle(GetCareerByIdQuery request, CancellationToken cancellationToken)
     {
         var career = await careerRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (career is null)
-            return Result<CareerResponse>.Failure(Career.CareerNotFound(request.Id));
+            return TypedResult<CareerResponse>.Failure(CareerErrors.CareerNotFound(request.Id));
         
         var response = new CareerResponse(career.Id, career.Manager, career.LastUpdate);
         
-        return Result<CareerResponse>.Success(response);
+        return TypedResult<CareerResponse>.Success(response);
     }
 }

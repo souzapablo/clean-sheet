@@ -23,4 +23,9 @@ public class CareerRepository(AppDbContext context) : ICareerRepository
                 career => !career.IsDeleted && career.Id == id, 
                 cancellationToken: cancellationToken);
 
+    public async Task UpdateAsync(Career career, CancellationToken cancellationToken = default)
+    {
+        context.Careers.Update(career);
+        await context.SaveChangesAsync(cancellationToken);
+    }
 }

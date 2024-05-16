@@ -3,4 +3,4 @@ using MediatR;
 
 namespace CleanSheet.Application.Features.Careers.Queries.Get;
 
-public record GetCareersQuery() : IRequest<Result<IEnumerable<CareerResponse>>>;
+public record GetCareersQuery() : IRequest<TypedResult<IEnumerable<CareerResponse>>>;
