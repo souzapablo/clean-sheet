@@ -1,4 +1,4 @@
-﻿using CleanSheet.Domain.Primitives;
+﻿using CleanSheet.Domain.Shared;
 
 namespace CleanSheet.Domain.Errors;
 

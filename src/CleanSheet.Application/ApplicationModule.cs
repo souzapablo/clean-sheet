@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanSheet.Application;
@@ -10,6 +11,8 @@ public static class ApplicationModule
         services.AddMediatR(configuration => 
             configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
+
         return services;
     }
 }

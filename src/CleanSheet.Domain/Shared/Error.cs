@@ -1,4 +1,4 @@
-﻿namespace CleanSheet.Domain.Primitives;
+﻿namespace CleanSheet.Domain.Shared;
 
 public record Error(
     string Code,

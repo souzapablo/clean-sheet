@@ -1,6 +1,4 @@
-﻿using CleanSheet.Domain.Primitives;
-
-namespace CleanSheet.Domain.Shared;
+﻿namespace CleanSheet.Domain.Shared;
 
 public class TypedResult<T> : Result
 {
