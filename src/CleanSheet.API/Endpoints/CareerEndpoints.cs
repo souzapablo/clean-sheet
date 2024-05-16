@@ -1,6 +1,8 @@
 ﻿using CleanSheet.Application.Features.Careers.Commands.Create;
 using CleanSheet.Application.Features.Careers.Queries.Get;
+using CleanSheet.Application.Features.Careers.Queries.GeyById;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanSheet.API.Endpoints;
 
@@ -13,6 +15,7 @@ public static class CareerEndpoints
 
         group.MapPost("", CreateAsync);
         group.MapGet("", GetAsync);
+        group.MapGet("{id:guid}", GetByIdAsync);
     }
 
     private static async Task<IResult> CreateAsync(
@@ -32,6 +35,17 @@ public static class CareerEndpoints
 
         var result = await sender.Send(query);
 
+        return TypedResults.Ok(result);
+    }
+
+    private static async Task<IResult> GetByIdAsync(
+        ISender sender, 
+        [FromRoute] Guid id)
+    {
+        var query = new GetCareerByIdQuery(id);
+
+        var result = await sender.Send(query);
+        
         return TypedResults.Ok(result);
     }
 }

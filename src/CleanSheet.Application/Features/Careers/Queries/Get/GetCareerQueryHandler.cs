@@ -9,7 +9,7 @@ public class GetCareerQueryHandler(ICareerRepository careerRepository)
 {
     public async Task<Result<IEnumerable<CareerResponse>>> Handle(GetCareersQuery request, CancellationToken cancellationToken)
     {
-        var careers = await careerRepository.GetCareersAsync(cancellationToken);
+        var careers = await careerRepository.ListAsync(cancellationToken);
 
         var result = careers.Select(career =>
             new CareerResponse(

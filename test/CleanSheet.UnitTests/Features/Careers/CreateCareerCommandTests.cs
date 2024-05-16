@@ -6,7 +6,7 @@ namespace CleanSheet.UnitTests.Features.Careers;
 
 public class CreateCareerCommandTests
 {
-    private static ICareerRepository CareerRepository => Substitute.For<ICareerRepository>();
+    private readonly ICareerRepository _careerRepository = Substitute.For<ICareerRepository>();
 
     [Fact(DisplayName = "Given a valid input should create a new career")]
     public async Task Given_AValidInput_Should_CreateANewCareer()
@@ -22,5 +22,5 @@ public class CreateCareerCommandTests
         testResult.Data.Should().NotBeEmpty();
     }
 
-    private static CreateCareerCommandHandler CommandHandler => new(CareerRepository);
+    private CreateCareerCommandHandler CommandHandler => new(_careerRepository);
 }
