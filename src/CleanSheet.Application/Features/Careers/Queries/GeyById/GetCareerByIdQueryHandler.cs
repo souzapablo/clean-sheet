@@ -1,4 +1,5 @@
-﻿using CleanSheet.Domain.Repositories;
+﻿using CleanSheet.Domain.Errors;
+using CleanSheet.Domain.Repositories;
 using CleanSheet.Domain.Shared;
 using MediatR;
 
@@ -11,6 +12,9 @@ public class GetCareerByIdQueryHandler(ICareerRepository careerRepository)
     {
         var career = await careerRepository.GetByIdAsync(request.Id, cancellationToken);
 
+        if (career is null)
+            return Result<CareerResponse>.Failure(CareerErrors.CareerNotFound(request.Id));
+        
         var response = new CareerResponse(career.Id, career.Manager, career.LastUpdate);
         
         return Result<CareerResponse>.Success(response);

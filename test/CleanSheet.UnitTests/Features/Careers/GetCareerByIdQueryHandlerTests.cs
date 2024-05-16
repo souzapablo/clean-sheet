@@ -25,5 +25,24 @@ public class GetCareerByIdQueryHandlerTests
         testResult.IsSuccess.Should().BeTrue();
         testResult.Data?.Manager.Should().NotBeNullOrEmpty();
     }
+    
+    [Fact(DisplayName = "Given an invalid id should return career not found error")]
+    public async Task Given_AnInvalidId_Should_ReturnCareerNotFoundError()
+    {
+        // Arrange
+        var query = new GetCareerByIdQuery(Guid.NewGuid());
+
+        _careerRepository.GetByIdAsync(Arg.Any<Guid>())
+            .ReturnsNull();
+        
+        // Act
+        var testResult = await QueryHandler.Handle(query, new CancellationToken());
+
+        // Assert
+        testResult.IsSuccess.Should().BeFalse();
+        testResult.Data?.Manager.Should().BeNull();
+        testResult.Error?.Code.Should().Be("CareerNotFound");
+    }
+    
     private GetCareerByIdQueryHandler QueryHandler => new(_careerRepository);
 }
