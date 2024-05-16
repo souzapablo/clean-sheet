@@ -1,5 +1,6 @@
 using CleanSheet.API.Endpoints;
 using CleanSheet.Application;
+using CleanSheet.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
-    .AddApplication();
+    .AddApplication()
+    .AddInfrastructure();
 
 var app = builder.Build();
 
