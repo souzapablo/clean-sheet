@@ -2,7 +2,7 @@
 
 public sealed class ValidationResult : Result, IValidationResult
 {
-    internal ValidationResult(Error[] errors)
+    private ValidationResult(Error[] errors)
         : base(IValidationResult.ValidationError) =>
         Errors = errors;
 

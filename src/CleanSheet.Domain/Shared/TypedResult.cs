@@ -2,7 +2,7 @@
 
 public class TypedResult<T> : Result
 {
-    private TypedResult(Error error) 
+    protected TypedResult(Error error) 
         :base(error) { }
     
     private TypedResult(T data)
