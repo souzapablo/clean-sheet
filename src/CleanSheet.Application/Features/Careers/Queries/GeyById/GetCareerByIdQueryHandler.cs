@@ -13,7 +13,7 @@ public class GetCareerByIdQueryHandler(ICareerRepository careerRepository)
         var career = await careerRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (career is null)
-            return Result<CareerResponse>.Failure(CareerErrors.CareerNotFound(request.Id));
+            return Result<CareerResponse>.Failure(Career.CareerNotFound(request.Id));
         
         var response = new CareerResponse(career.Id, career.Manager, career.LastUpdate);
         

@@ -26,7 +26,7 @@ public static class CareerEndpoints
 
         var result = await sender.Send(command);
         
-        return TypedResults.Ok(result);
+        return TypedResults.Created($"/api/v1/careers/{result.Data}", result);
     }
 
     private static async Task<IResult> GetAsync(ISender sender)
@@ -45,6 +45,9 @@ public static class CareerEndpoints
         var query = new GetCareerByIdQuery(id);
 
         var result = await sender.Send(query);
+        
+        if (!result.IsSuccess)
+            return TypedResults.NotFound(result);
         
         return TypedResults.Ok(result);
     }
