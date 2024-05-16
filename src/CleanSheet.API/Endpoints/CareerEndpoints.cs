@@ -1,5 +1,5 @@
-﻿using CleanSheet.Application.Features.Career.Commands.Create;
-using CleanSheet.Domain.Entities;
+﻿using CleanSheet.Application.Features.Careers.Commands.Create;
+using MediatR;
 
 namespace CleanSheet.API.Endpoints;
 
@@ -13,8 +13,12 @@ public static class CareerEndpoints
         group.MapPost("", CreateAsync);
     }
 
-    private static IResult CreateAsync(CreateCareerInput input)
+    private static async Task<IResult> CreateAsync(CreateCareerRequest request, ISender sender)
     {
-        return TypedResults.Ok(new Career(Guid.NewGuid(), input.Manager));
+        var command = new CreateCareerCommand(request.Manager);
+
+        var result = await sender.Send(command);
+        
+        return TypedResults.Ok(result);
     }
 }
