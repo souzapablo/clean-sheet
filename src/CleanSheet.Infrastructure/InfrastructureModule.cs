@@ -15,6 +15,9 @@ public static class InfrastructureModule
         services.AddDbContext<AppDbContext>(config =>
             config.UseNpgsql(connectionString)
                 .UseSnakeCaseNamingConvention());
+        
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        
 
         services.AddRepositories();
         

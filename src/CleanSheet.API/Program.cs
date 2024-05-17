@@ -27,3 +27,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.Run();
+
+namespace CleanSheet.API
+{
+    public partial class Program
+    {
+    }
+}
