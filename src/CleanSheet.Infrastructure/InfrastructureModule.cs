@@ -1,16 +1,20 @@
 ﻿using CleanSheet.Domain.Repositories;
 using CleanSheet.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanSheet.Infrastructure;
 
 public static class InfrastructureModule
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(configuration =>
-            configuration.UseInMemoryDatabase("clean-sheet-db"));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        
+        services.AddDbContext<AppDbContext>(config =>
+            config.UseNpgsql(connectionString)
+                .UseSnakeCaseNamingConvention());
 
         services.AddRepositories();
         
