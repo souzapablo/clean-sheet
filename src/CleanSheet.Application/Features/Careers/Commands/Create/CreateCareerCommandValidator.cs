@@ -7,7 +7,7 @@ public class CreateCareerCommandValidator : AbstractValidator<CreateCareerComman
     public CreateCareerCommandValidator()
     {
         RuleFor(command => command.Manager)
-            .Length(3)
+            .MinimumLength(3)
             .WithMessage("Manager name must have at least 3 characters.");
     }
 }
