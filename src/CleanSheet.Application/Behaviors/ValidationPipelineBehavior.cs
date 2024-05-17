@@ -20,7 +20,7 @@ public class ValidatorPipelineBehavior<TRequest, TResponse>(IEnumerable<IValidat
             .Select(validator => validator.Validate(request))
             .SelectMany(result => result.Errors)
             .Where(failure => failure is not null)
-            .Select(failure => new Error(failure.PropertyName, failure.ErrorMessage))
+            .Select(failure => new Error(400, failure.PropertyName, failure.ErrorMessage))
             .Distinct()
             .ToArray();
 

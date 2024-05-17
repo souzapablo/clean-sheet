@@ -30,7 +30,7 @@ app.Run();
 
 namespace CleanSheet.API
 {
-    public partial class Program
+    public class Program
     {
     }
 }

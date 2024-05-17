@@ -16,6 +16,10 @@ public static class FailureExtensions
                     result.Error!,
                     validationResult.Errors
                 )),
+            { Error.Status: 404 } => TypedResults.NotFound(
+                CreateProblemDetails("Not Found",
+                    StatusCodes.Status404NotFound,
+                    result.Error!)),
             _ => TypedResults.BadRequest(CreateProblemDetails(
                 "Bad Request",
                 StatusCodes.Status400BadRequest,
