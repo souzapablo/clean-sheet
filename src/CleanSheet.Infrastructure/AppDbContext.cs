@@ -8,6 +8,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     : DbContext(options)
 {
     public DbSet<Career> Careers { get; private set; } = null!;
+    public DbSet<InitialTeam> InitialTeams { get; private set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
