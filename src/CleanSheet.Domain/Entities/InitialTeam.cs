@@ -1,4 +1,5 @@
-﻿using CleanSheet.Domain.Primitives;
+﻿using CleanSheet.Domain.Extensions;
+using CleanSheet.Domain.Primitives;
 
 namespace CleanSheet.Domain.Entities;
 
@@ -12,5 +13,6 @@ public class InitialTeam(
     public string Name { get; private set; } = name;
     public string Stadium { get; private set; } = stadium;
     public string Slug { get; private set; } = slug;
+
     public IReadOnlyCollection<Player> Players => _players;
 }

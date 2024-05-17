@@ -16,6 +16,7 @@ builder.Services
 var app = builder.Build();
 
 app.MapCareerEndpoints();
+app.MapInitialTeamEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

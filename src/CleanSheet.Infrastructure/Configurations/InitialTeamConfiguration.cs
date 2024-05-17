@@ -1,4 +1,5 @@
 ﻿using CleanSheet.Domain.Entities;
+using CleanSheet.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,5 +16,8 @@ public class InitialTeamConfiguration : IEntityTypeConfiguration<InitialTeam>
         
         builder.Property(initialTeam => initialTeam.Players)
             .HasColumnType("jsonb");
+        
+        builder.Property(initialTeam => initialTeam.Players)
+            .HasConversion(new InitialTeamConverter());
     }
 }

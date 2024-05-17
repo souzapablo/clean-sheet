@@ -27,5 +27,6 @@ public static class InfrastructureModule
     private static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ICareerRepository, CareerRepository>();
+        services.AddScoped<IInitialTeamRepository, InitialTeamRepository>();
     }
 }
