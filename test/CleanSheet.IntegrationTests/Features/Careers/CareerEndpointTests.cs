@@ -61,7 +61,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
     public async Task DeleteCareerCommand_Should_ReturnCareerNotFoundError_Given_AnInvalidId()
     {
         // Arrange
-        var query = new DeleteCareerCommand(Guid.NewGuid());
+        var query = new DeleteCareerCommand(long.MaxValue);
 
         // Act
         var testResult = await Sender.Send(query);
@@ -75,7 +75,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
     public async Task GetCareerByIdQuery_Should_DeleteCareer_Given_AValidId()
     {
         // Arrange
-        var query = new GetCareerByIdQuery(Guid.NewGuid());
+        var query = new GetCareerByIdQuery(long.MaxValue);
 
         // Act
         var testResult = await Sender.Send(query);
@@ -97,7 +97,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
         
         // Assert
         testResult.IsSuccess.Should().BeTrue();
-        testResult.Data.Should().NotBeEmpty();
+        testResult.Data.Should().BeGreaterThan(0);
         testResult.Error.Should().BeNull();
     }
     
@@ -112,7 +112,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
         
         // Assert
         testResult.IsSuccess.Should().BeFalse();
-        testResult.Data.Should().BeEmpty();
+        testResult.Data.Should().BeGreaterThan(0);
         testResult.Error.Should().NotBeNull();
     }
 }

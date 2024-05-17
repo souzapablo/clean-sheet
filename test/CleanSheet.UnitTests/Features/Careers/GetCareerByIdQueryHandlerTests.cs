@@ -12,10 +12,10 @@ public class GetCareerByIdQueryHandlerTests
     public async Task Given_AValidId_Should_ReturnCareerResponse()
     {
         // Arrange
-        var career = new Career(Guid.NewGuid(), "Ancelotti");
-        var query = new GetCareerByIdQuery(Guid.NewGuid());
+        var career = new Career("Ancelotti");
+        var query = new GetCareerByIdQuery(1);
 
-        _careerRepository.GetByIdAsync(Arg.Any<Guid>())
+        _careerRepository.GetByIdAsync(Arg.Any<long>())
             .Returns(career);
         
         // Act
@@ -30,9 +30,9 @@ public class GetCareerByIdQueryHandlerTests
     public async Task Given_AnInvalidId_Should_ReturnCareerNotFoundError()
     {
         // Arrange
-        var query = new GetCareerByIdQuery(Guid.NewGuid());
+        var query = new GetCareerByIdQuery(1);
 
-        _careerRepository.GetByIdAsync(Arg.Any<Guid>())
+        _careerRepository.GetByIdAsync(Arg.Any<long>())
             .ReturnsNull();
         
         // Act

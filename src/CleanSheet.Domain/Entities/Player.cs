@@ -4,12 +4,11 @@ using CleanSheet.Domain.Primitives;
 namespace CleanSheet.Domain.Entities;
 
 public class Player(
-    Guid id,
     string name,
     int kitNumber,
     int overall,
     DateOnly birthday,
-    PlayerPosition position) : Entity(id)
+    PlayerPosition position) : Entity
 {
     public string Name { get; private set; } = name;
     public int KitNumber { get; private set; } = kitNumber;

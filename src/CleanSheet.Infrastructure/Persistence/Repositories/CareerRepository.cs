@@ -17,7 +17,7 @@ public class CareerRepository(AppDbContext context) : ICareerRepository
             .Where(career => !career.IsDeleted)
             .ToListAsync(cancellationToken: cancellationToken);
 
-    public async Task<Career?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+    public async Task<Career?> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
         await context.Careers
             .SingleOrDefaultAsync(
                 career => !career.IsDeleted && career.Id == id, 

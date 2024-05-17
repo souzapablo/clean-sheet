@@ -17,8 +17,8 @@ public static class CareerEndpoints
 
         group.MapPost("", CreateAsync);
         group.MapGet("", GetAsync);
-        group.MapGet("{id:guid}", GetByIdAsync);
-        group.MapDelete("{id:guid}", DeleteAsync);
+        group.MapGet("{id:long}", GetByIdAsync);
+        group.MapDelete("{id:long}", DeleteAsync);
     }
 
     private static async Task<IResult> CreateAsync(
@@ -43,7 +43,7 @@ public static class CareerEndpoints
 
     private static async Task<IResult> GetByIdAsync(
         ISender sender, 
-        [FromRoute] Guid id)
+        [FromRoute] long id)
     {
         var query = new GetCareerByIdQuery(id);
 
@@ -57,7 +57,7 @@ public static class CareerEndpoints
 
     private static async Task<IResult> DeleteAsync(
         ISender sender,
-        [FromRoute] Guid id)
+        [FromRoute] long id)
     {
         var command = new DeleteCareerCommand(id);
 

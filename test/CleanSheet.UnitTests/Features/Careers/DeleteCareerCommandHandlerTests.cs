@@ -12,10 +12,10 @@ public class DeleteCareerCommandHandlerTests
     public async Task Given_AValidId_Should_DeleteCareer()
     {
         // Arrange
-        var career = new Career(Guid.NewGuid(), "Ancelotti");
-        var command = new DeleteCareerCommand(Guid.NewGuid());
+        var career = new Career("Ancelotti");
+        var command = new DeleteCareerCommand(1);
 
-        _careerRepository.GetByIdAsync(Arg.Any<Guid>())
+        _careerRepository.GetByIdAsync(Arg.Any<long>())
             .Returns(career);
         
         // Act
@@ -31,9 +31,9 @@ public class DeleteCareerCommandHandlerTests
     public async Task Given_AnInvalidId_Should_ReturnCareerNotFoundError()
     {
         // Arrange
-        var command = new DeleteCareerCommand(Guid.NewGuid());
+        var command = new DeleteCareerCommand(1);
 
-        _careerRepository.GetByIdAsync(Arg.Any<Guid>())
+        _careerRepository.GetByIdAsync(Arg.Any<long>())
             .ReturnsNull();
         
         // Act

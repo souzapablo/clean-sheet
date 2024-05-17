@@ -3,4 +3,4 @@ using MediatR;
 
 namespace CleanSheet.Application.Features.Careers.Commands.Delete;
 
-public record DeleteCareerCommand(Guid Id) : IRequest<Result>;
+public record DeleteCareerCommand(long Id) : IRequest<Result>;

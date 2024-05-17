@@ -22,7 +22,7 @@ public class CreateInitialTeamCommandHandlerTests
         
         // Assert
         testResult.IsSuccess.Should().BeTrue();
-        testResult.Data.Should().NotBeEmpty();
+        testResult.Data.Should().BeGreaterThan(0);
         testResult.Error?.Should().BeNull();
     }
    
@@ -40,7 +40,7 @@ public class CreateInitialTeamCommandHandlerTests
         
         // Assert
         testResult.IsSuccess.Should().BeFalse();
-        testResult.Data.Should().BeEmpty();
+        testResult.Data.Should().BeGreaterThan(0);
         testResult.Error?.Code.Should().Be("InitialTeamAlreadyExists");
     } 
     private CreateInitialTeamCommandHandler CommandHandler => new(_initialTeamRepository);

@@ -1,8 +1,8 @@
 ﻿namespace CleanSheet.Domain.Primitives;
 
-public abstract class Entity(Guid id)
+public abstract class Entity
 {
-    public Guid Id { get; private set; } = id;
+    public long Id { get; private set; }
     public bool IsDeleted { get; private set; }
 
     public void Delete() =>

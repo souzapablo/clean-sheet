@@ -7,25 +7,24 @@ using MediatR;
 
 namespace CleanSheet.Application.Features.InitialTeams.Commands.Create;
 
-public class CreateInitialTeamCommandHandler(IInitialTeamRepository repository) : IRequestHandler<CreateInitialTeamCommand, TypedResult<Guid>>
+public class CreateInitialTeamCommandHandler(IInitialTeamRepository repository) : IRequestHandler<CreateInitialTeamCommand, TypedResult<long>>
 {
-    public async Task<TypedResult<Guid>> Handle(CreateInitialTeamCommand request, CancellationToken cancellationToken)
+    public async Task<TypedResult<long>> Handle(CreateInitialTeamCommand request, CancellationToken cancellationToken)
     {
         var slug = request.Name.CreateSlug();
 
         var initialTeam = await repository.GetInitialTeamBySlugAsync(slug, cancellationToken);
         
         if (initialTeam is not null)
-            return TypedResult<Guid>.Failure(InitialTeamErrors.InitialTeamAlreadyExists(slug));
+            return TypedResult<long>.Failure(InitialTeamErrors.InitialTeamAlreadyExists(slug));
         
         var newInitialTeam = new InitialTeam(
-            Guid.NewGuid(),
             request.Name,
             request.Stadium, 
             slug);
 
         await repository.AddAsync(newInitialTeam, cancellationToken);
 
-        return TypedResult<Guid>.Success(newInitialTeam.Id);
+        return TypedResult<long>.Success(newInitialTeam.Id);
     }
 }
