@@ -1,5 +1,7 @@
-﻿using CleanSheet.Application.Features.InitialTeams.Commands.Create;
+﻿using CleanSheet.API.Extensions;
+using CleanSheet.Application.Features.InitialTeams.Commands.Create;
 using CleanSheet.Application.Features.InitialTeams.Queries.Get;
+using CleanSheet.Application.Features.InitialTeams.Queries.GetById;
 using MediatR;
 
 namespace CleanSheet.API.Endpoints;
@@ -13,6 +15,7 @@ public static class InitialTeamEndpoints
 
         group.MapPost("", CreateAsync);
         group.MapGet("", GetAsync);
+        group.MapGet("{slug}", GetBySlugAsync);
     }
 
     private static async Task<IResult> CreateAsync(
@@ -34,5 +37,19 @@ public static class InitialTeamEndpoints
         var testResult = await sender.Send(query);
 
         return TypedResults.Ok(testResult);
+    }
+
+    private static async Task<IResult> GetBySlugAsync(
+        ISender sender,
+        string slug)
+    {
+        var query = new GetInitialTeamBySlugQuery(slug);
+
+        var result = await sender.Send(query);
+        
+        if (!result.IsSuccess)
+            return FailureExtensions.Handle(result);
+
+        return TypedResults.Ok(result);
     }
 }

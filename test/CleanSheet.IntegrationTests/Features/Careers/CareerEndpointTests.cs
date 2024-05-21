@@ -112,7 +112,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
         
         // Assert
         testResult.IsSuccess.Should().BeFalse();
-        testResult.Data.Should().BeGreaterThan(0);
+        testResult.Data.Should().Be(0);
         testResult.Error.Should().NotBeNull();
     }
 }

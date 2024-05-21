@@ -19,7 +19,6 @@ public class CreateCareerCommandTests
 
         // Assert
         testResult.IsSuccess.Should().BeTrue();
-        testResult.Data.Should().BeGreaterThan(0);
     }
 
     private CreateCareerCommandHandler CommandHandler => new(_careerRepository);

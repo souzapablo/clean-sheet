@@ -6,9 +6,9 @@ using MediatR;
 namespace CleanSheet.Application.Features.InitialTeams.Queries.Get;
 
 public class GetInitialTeamsQueryHandler(IInitialTeamRepository initialTeamRepository)
-    : IRequestHandler<GetInitialTeamsQuery, TypedResult<IEnumerable<InitialTeamResponse>>>
+    : IRequestHandler<GetInitialTeamsQuery, Result<IEnumerable<InitialTeamResponse>>>
 {
-    public async Task<TypedResult<IEnumerable<InitialTeamResponse>>> Handle(GetInitialTeamsQuery request,
+    public async Task<Result<IEnumerable<InitialTeamResponse>>> Handle(GetInitialTeamsQuery request,
         CancellationToken cancellationToken)
     {
         var initialTeams = await initialTeamRepository.ListAsync(cancellationToken);
@@ -22,6 +22,6 @@ public class GetInitialTeamsQueryHandler(IInitialTeamRepository initialTeamRepos
                     .Select(player => 
                         new PlayerResponse(player.Name))));
         
-        return TypedResult<IEnumerable<InitialTeamResponse>>.Success(response);
+        return Result<IEnumerable<InitialTeamResponse>>.Success(response);
     }
 }

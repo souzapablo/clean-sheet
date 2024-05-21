@@ -1,6 +1,6 @@
 ﻿namespace CleanSheet.Domain.Shared;
 
-public sealed class TypedValidationResult<TValue> : TypedResult<TValue>, IValidationResult
+public sealed class TypedValidationResult<TValue> : Result<TValue>, IValidationResult
 {
     private TypedValidationResult(Error[] errors)
         : base(IValidationResult.ValidationError) =>

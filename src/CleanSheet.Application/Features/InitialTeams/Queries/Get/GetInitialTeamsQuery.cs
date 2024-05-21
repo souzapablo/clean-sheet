@@ -3,4 +3,4 @@ using MediatR;
 
 namespace CleanSheet.Application.Features.InitialTeams.Queries.Get;
 
-public record GetInitialTeamsQuery : IRequest<TypedResult<IEnumerable<InitialTeamResponse>>>;
+public record GetInitialTeamsQuery : IRequest<Result<IEnumerable<InitialTeamResponse>>>;

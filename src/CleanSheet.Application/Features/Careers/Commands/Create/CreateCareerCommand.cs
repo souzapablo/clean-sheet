@@ -3,4 +3,4 @@ using MediatR;
 
 namespace CleanSheet.Application.Features.Careers.Commands.Create;
 
-public record CreateCareerCommand(string Manager) : IRequest<TypedResult<long>>;
+public record CreateCareerCommand(string Manager) : IRequest<Result<long>>;

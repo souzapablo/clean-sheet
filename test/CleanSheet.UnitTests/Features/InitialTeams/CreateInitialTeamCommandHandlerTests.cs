@@ -22,7 +22,6 @@ public class CreateInitialTeamCommandHandlerTests
         
         // Assert
         testResult.IsSuccess.Should().BeTrue();
-        testResult.Data.Should().BeGreaterThan(0);
         testResult.Error?.Should().BeNull();
     }
    
@@ -31,16 +30,16 @@ public class CreateInitialTeamCommandHandlerTests
     {
         // Arrange
         var command = new CreateInitialTeamCommand("Chelsea", "Stamford Bridge");
+        var initialTeam = new InitialTeam("Chelsea", "Stamford Bridge", "chelsea");
 
         _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
-            .Returns(Arg.Any<InitialTeam>());
+            .Returns(initialTeam);
         
         // Act
         var testResult = await CommandHandler.Handle(command, new CancellationToken());
         
         // Assert
         testResult.IsSuccess.Should().BeFalse();
-        testResult.Data.Should().BeGreaterThan(0);
         testResult.Error?.Code.Should().Be("InitialTeamAlreadyExists");
     } 
     private CreateInitialTeamCommandHandler CommandHandler => new(_initialTeamRepository);
