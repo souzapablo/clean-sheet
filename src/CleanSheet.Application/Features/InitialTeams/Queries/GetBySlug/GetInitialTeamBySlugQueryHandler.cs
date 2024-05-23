@@ -4,13 +4,13 @@ using CleanSheet.Domain.Repositories;
 using CleanSheet.Domain.Shared;
 using MediatR;
 
-namespace CleanSheet.Application.Features.InitialTeams.Queries.GetById;
+namespace CleanSheet.Application.Features.InitialTeams.Queries.GetBySlug;
 public class GetInitialTeamBySlugQueryHandler(
     IInitialTeamRepository initialTeamRepository) : IRequestHandler<GetInitialTeamBySlugQuery, Result<InitialTeamResponse>>
 {
     public async Task<Result<InitialTeamResponse>> Handle(GetInitialTeamBySlugQuery request, CancellationToken cancellationToken)
     {
-        var initialTeam = await initialTeamRepository.GetInitialTeamBySlugAsync(request.Slug);
+        var initialTeam = await initialTeamRepository.GetInitialTeamBySlugAsync(request.Slug, cancellationToken);
 
         if (initialTeam is null)
             return Result<InitialTeamResponse>.Failure(InitialTeamErrors.InitialTeamNotFound(request.Slug));

@@ -16,7 +16,14 @@ public class InitialTeamRepository(AppDbContext context) : IInitialTeamRepositor
         await context.InitialTeams
             .ToListAsync(cancellationToken);
 
-    public async Task<InitialTeam?> GetInitialTeamBySlugAsync(string slug, CancellationToken cancellationToken = default)
+    public async Task<InitialTeam?> GetInitialTeamBySlugAsync(string slug,
+        CancellationToken cancellationToken = default)
         => await context.InitialTeams
-            .SingleOrDefaultAsync(initialTeam => initialTeam.Slug.Equals(slug), cancellationToken: cancellationToken);
+            .SingleOrDefaultAsync(initialTeam => initialTeam.Slug.Equals(slug), cancellationToken);
+
+    public async Task UpdateAsync(InitialTeam initialTeam, CancellationToken cancellationToken = default)
+    {
+        context.InitialTeams.Update(initialTeam);
+        await context.SaveChangesAsync(cancellationToken);
+    }
 }

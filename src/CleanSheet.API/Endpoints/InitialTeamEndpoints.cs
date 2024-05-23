@@ -1,8 +1,10 @@
 ﻿using CleanSheet.API.Extensions;
+using CleanSheet.Application.Features.InitialTeams.Commands.AddInitialTeamPlayer;
 using CleanSheet.Application.Features.InitialTeams.Commands.Create;
 using CleanSheet.Application.Features.InitialTeams.Queries.Get;
-using CleanSheet.Application.Features.InitialTeams.Queries.GetById;
+using CleanSheet.Application.Features.InitialTeams.Queries.GetBySlug;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanSheet.API.Endpoints;
 
@@ -16,6 +18,7 @@ public static class InitialTeamEndpoints
         group.MapPost("", CreateAsync);
         group.MapGet("", GetAsync);
         group.MapGet("{slug}", GetBySlugAsync);
+        group.MapPatch("{slug}/add-player", AddPlayerAsync);
     }
 
     private static async Task<IResult> CreateAsync(
@@ -46,10 +49,26 @@ public static class InitialTeamEndpoints
         var query = new GetInitialTeamBySlugQuery(slug);
 
         var result = await sender.Send(query);
-        
+
         if (!result.IsSuccess)
             return FailureExtensions.Handle(result);
 
+        return TypedResults.Ok(result);
+    }
+
+    private static async Task<IResult> AddPlayerAsync(
+        ISender sender,
+        string slug,
+        [FromBody] AddInitialTeamPlayerRequest request)
+    {
+        var command = new AddInitialTeamPlayerCommand(slug, request.Name, request.KitNumber, request.Overall,
+            request.Birthday, request.Position);
+
+        var result = await sender.Send(command);
+
+        if (!result.IsSuccess)
+            FailureExtensions.Handle(result);
+        
         return TypedResults.Ok(result);
     }
 }
