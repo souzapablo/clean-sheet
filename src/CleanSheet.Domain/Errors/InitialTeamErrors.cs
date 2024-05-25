@@ -8,4 +8,7 @@ public static class InitialTeamErrors
         $"There is already an initial team registered with slug {slug}.");
     public static Error InitialTeamNotFound(string slug) => new(404, "InitialTeamNotFound", 
         $"Initial team with slug {slug} not found.");
+
+    public static Error PlayerNotFound(string name, string playerName) => new(404, "InitialTeamPlayerNotFound",
+        $"{playerName} not found in {name} initial team.");
 }

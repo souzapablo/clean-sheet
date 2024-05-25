@@ -1,6 +1,7 @@
 ﻿using CleanSheet.API.Extensions;
 using CleanSheet.Application.Features.InitialTeams.Commands.AddInitialTeamPlayer;
 using CleanSheet.Application.Features.InitialTeams.Commands.Create;
+using CleanSheet.Application.Features.InitialTeams.Commands.RemoveInitialTeamPlayer;
 using CleanSheet.Application.Features.InitialTeams.Queries.Get;
 using CleanSheet.Application.Features.InitialTeams.Queries.GetBySlug;
 using MediatR;
@@ -19,6 +20,7 @@ public static class InitialTeamEndpoints
         group.MapGet("", GetAsync);
         group.MapGet("{slug}", GetBySlugAsync);
         group.MapPatch("{slug}/add-player", AddPlayerAsync);
+        group.MapDelete("{slug}/remove-player/{playerName}", RemovePlayerAsync);
     }
 
     private static async Task<IResult> CreateAsync(
@@ -70,5 +72,20 @@ public static class InitialTeamEndpoints
             FailureExtensions.Handle(result);
         
         return TypedResults.Ok(result);
+    }
+
+    private static async Task<IResult> RemovePlayerAsync(
+        ISender sender,
+        string slug,
+        string playerName)
+    {
+        var command = new RemoveInitialTeamPlayerCommand(slug, playerName);
+
+        var result = await sender.Send(command);
+
+        if (!result.IsSuccess)
+            return FailureExtensions.Handle(result);
+        
+        return TypedResults.NoContent();
     }
 }

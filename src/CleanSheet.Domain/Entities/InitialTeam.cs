@@ -1,4 +1,6 @@
-﻿using CleanSheet.Domain.Primitives;
+﻿using CleanSheet.Domain.Errors;
+using CleanSheet.Domain.Primitives;
+using CleanSheet.Domain.Shared;
 
 namespace CleanSheet.Domain.Entities;
 
@@ -16,4 +18,16 @@ public class InitialTeam(
 
     public void AddPlayer(Player player) =>
         _players.Add(player);
+
+    public Result RemovePlayer(string playerName)
+    {
+        var playerToRemove = _players.SingleOrDefault(player => player.Name.Equals(playerName));
+
+        if (playerToRemove is null)
+            return Result.Failure(InitialTeamErrors.PlayerNotFound(Name, playerName));
+
+        _players.Remove(playerToRemove);
+
+        return Result.Success;
+    }
 }
