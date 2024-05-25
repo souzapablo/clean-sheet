@@ -14,6 +14,7 @@ public static class InitialTeamEndpoints
     public static void MapInitialTeamEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("api/v1/initial-teams")
+            .RequireAuthorization("RequireAdminRole")
             .WithTags("Initial teams");
 
         group.MapPost("", CreateAsync);

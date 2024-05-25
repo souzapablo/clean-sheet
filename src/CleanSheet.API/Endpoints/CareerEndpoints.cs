@@ -13,6 +13,7 @@ public static class CareerEndpoints
     public static void MapCareerEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/v1/careers")
+            .RequireAuthorization()
             .WithTags("Careers");
 
         group.MapPost("", CreateAsync);
