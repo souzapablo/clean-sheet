@@ -1,4 +1,5 @@
 using CleanSheet.API.Endpoints;
+using CleanSheet.API.OptionsSetup;
 using CleanSheet.Application;
 using CleanSheet.Infrastructure;
 
@@ -13,11 +14,15 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
 var app = builder.Build();
 
 app.MapCareerEndpoints();
 app.MapInitialTeamEndpoints();
 app.MapUserEndpoints();
+app.MapAuthEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

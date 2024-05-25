@@ -8,7 +8,8 @@ public static class UserEndpoints
 {
     public static void MapUserEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/v1/users");
+        var group = app.MapGroup("/api/v1/users")
+            .WithTags("Users");
 
         group.MapPost("", CreateAsync);
     }

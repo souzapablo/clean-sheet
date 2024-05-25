@@ -1,5 +1,7 @@
 ﻿using CleanSheet.Domain.Repositories;
+using CleanSheet.Domain.Services;
 using CleanSheet.Infrastructure.Persistence.Repositories;
+using CleanSheet.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,7 @@ public static class InfrastructureModule
         
 
         services.AddRepositories();
+        services.AddSevices();
         
         return services;
     }
@@ -29,5 +32,10 @@ public static class InfrastructureModule
         services.AddScoped<ICareerRepository, CareerRepository>();
         services.AddScoped<IInitialTeamRepository, InitialTeamRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+    }
+
+    private static void AddSevices(this IServiceCollection services)
+    {
+        services.AddScoped<IJwtService, JwtService>();
     }
 }
