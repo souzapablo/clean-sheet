@@ -1,6 +1,4 @@
 ﻿using CleanSheet.Application.Features.InitialTeams.Queries.GetBySlug;
-using CleanSheet.Domain.Entities;
-using FluentAssertions;
 
 namespace CleanSheet.UnitTests.Features.InitialTeams;
 public class GetInitialTeamByIdQueryHandlerTests

@@ -1,4 +1,4 @@
-﻿namespace CleanSheet.Domain.Errors;
+﻿namespace CleanSheet.Domain.Enums;
 public enum UserRole
 {
     Admin,

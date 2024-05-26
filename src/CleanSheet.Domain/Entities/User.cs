@@ -1,4 +1,4 @@
-﻿using CleanSheet.Domain.Errors;
+﻿using CleanSheet.Domain.Enums;
 using CleanSheet.Domain.Primitives;
 
 namespace CleanSheet.Domain.Entities;
@@ -11,4 +11,7 @@ public class User(string name, string email, string passwordHash, UserRole role)
     public string PasswordHash { get; private set; } = passwordHash;
     public UserRole Role { get; private set; } = role;
     public IReadOnlyList<Career> Careers => _careers;
+
+    public void AddCareer(Career career) =>
+        _careers.Add(career);
 }

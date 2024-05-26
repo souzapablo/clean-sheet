@@ -1,7 +1,4 @@
 ﻿using CleanSheet.Application.Features.InitialTeams.Commands.AddInitialTeamPlayer;
-using CleanSheet.Domain.Entities;
-using CleanSheet.Domain.Enums;
-using FluentAssertions;
 
 namespace CleanSheet.UnitTests.Features.InitialTeams;
 

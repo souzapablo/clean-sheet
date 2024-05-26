@@ -1,6 +1,4 @@
 ﻿using CleanSheet.Application.Features.InitialTeams.Commands.Create;
-using CleanSheet.Domain.Entities;
-using FluentAssertions;
 
 namespace CleanSheet.UnitTests.Features.InitialTeams;
 

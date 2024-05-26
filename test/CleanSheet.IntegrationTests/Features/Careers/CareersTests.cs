@@ -6,15 +6,13 @@ using FluentAssertions;
 
 namespace CleanSheet.IntegrationTests.Features.Careers;
 
-public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
+public class CareersTests(IntegrationTestWebAppFactory factory)
     : BaseIntegrationTest(factory)
 {
     [Fact(DisplayName = "Get careers query should list at least one career available in database")]
     public async Task GetCareersQuery_Should_ListAtLeastOneCareerAvailableInDatabase()
     {
         // Arrange
-        var command = new CreateCareerCommand("Ancelotti");
-        await Sender.Send(command);
         var query = new GetCareersQuery();
         
         // Act
@@ -29,9 +27,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
     public async Task GetCareerByIdQuery_Should_ReturnCareerResponse_Given_AValidId()
     {
         // Arrange
-        var command = new CreateCareerCommand("Tite");
-        var createdCareer = await Sender.Send(command);
-        var query = new GetCareerByIdQuery(createdCareer.Data);
+        var query = new GetCareerByIdQuery(1L);
 
         // Act
         var testResult = await Sender.Send(query);
@@ -46,7 +42,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
     public async Task DeleteCareerCommand_Should_DeleteCareer_Given_AValidId()
     {
         // Arrange
-        var command = new CreateCareerCommand("Jorge Jesus");
+        var command = new CreateCareerCommand(1L, "Jorge Jesus");
         var createdCareer = await Sender.Send(command);
         var query = new DeleteCareerCommand(createdCareer.Data);
 
@@ -90,7 +86,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
     public async Task CreateCareerCommand_Should_CreateANewCareer_When_InputIsValid()
     {
         // Arrange
-        var command = new CreateCareerCommand("Abel Ferreira");
+        var command = new CreateCareerCommand(1L, "Abel Ferreira");
         
         // Act
         var testResult = await Sender.Send(command);
@@ -105,7 +101,7 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
     public async Task CreateCareerCommand_Should_ReturnValidationError_When_InputIsInvalid()
     {
         // Arrange
-        var command = new CreateCareerCommand("GG");
+        var command = new CreateCareerCommand(1L, "GG");
         
         // Act
         var testResult = await Sender.Send(command);
@@ -113,6 +109,21 @@ public class CareerEndpointTests(IntegrationTestWebAppFactory factory)
         // Assert
         testResult.IsSuccess.Should().BeFalse();
         testResult.Data.Should().Be(0);
-        testResult.Error.Should().NotBeNull();
+        testResult.Error?.Code.Should().Be("ValidationError");
+    }
+
+    [Fact(DisplayName = "Create career command should return user not found error when user is invalid")]
+    public async Task CreateCareerCommand_Should_ReturnUserNotFoundError_When_UserIsInvalid()
+    {
+        // Arrange
+        var command = new CreateCareerCommand(long.MaxValue, "Errinho");
+
+        // Act
+        var testResult = await Sender.Send(command);
+
+        // Assert
+        testResult.IsSuccess.Should().BeFalse();
+        testResult.Data.Should().Be(0);
+        testResult.Error?.Code.Should().Be("UserNotFound");
     }
 }

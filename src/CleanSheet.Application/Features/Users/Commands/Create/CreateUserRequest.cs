@@ -1,4 +1,4 @@
-﻿using CleanSheet.Domain.Errors;
+﻿using CleanSheet.Domain.Enums;
 
 namespace CleanSheet.Application.Features.Users.Commands.Create;
 public record CreateUserRequest(

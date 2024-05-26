@@ -26,7 +26,7 @@ public static class CareerEndpoints
         CreateCareerRequest request, 
         ISender sender)
     {
-        var command = new CreateCareerCommand(request.Manager);
+        var command = new CreateCareerCommand(request.UserId, request.Manager);
 
         var result = await sender.Send(command);
         

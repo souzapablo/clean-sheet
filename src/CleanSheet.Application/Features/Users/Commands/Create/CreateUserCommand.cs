@@ -1,4 +1,4 @@
-﻿using CleanSheet.Domain.Errors;
+﻿using CleanSheet.Domain.Enums;
 using CleanSheet.Domain.Shared;
 using MediatR;
 

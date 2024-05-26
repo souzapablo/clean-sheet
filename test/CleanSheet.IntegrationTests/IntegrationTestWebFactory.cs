@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Testcontainers.PostgreSql;
-
+using Hash = BCrypt.Net.BCrypt;
 
 namespace CleanSheet.IntegrationTests;
 
@@ -29,6 +29,7 @@ public class IntegrationTestWebAppFactory
         using var scope = Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await dbContext.Database.MigrateAsync();
+        await CreateEntities(_connectionString);
         var connection = new NpgsqlConnection(_connectionString);
         connection.Open();
     }
@@ -56,5 +57,26 @@ public class IntegrationTestWebAppFactory
     public new Task DisposeAsync()
     {
         return _dbContainer.StopAsync();
+    }
+
+    private static async Task CreateEntities(string connectionString)
+    {
+        await using var connection = new NpgsqlConnection(connectionString);
+        await connection.OpenAsync();
+        var passwordHash = Hash.HashPassword("Testing@123");
+        var insertUserQuery = $"INSERT INTO users (name, email, password_hash, role, is_deleted) VALUES ('Test', 'test@email.com', '{passwordHash}', 0, false)";
+        var insertCareerQuery = "INSERT INTO careers (manager, user_id, is_deleted, last_update) VALUES ('Ancelotti', 1, false, now())";
+        var insertInitialTeamQuery = "INSERT INTO initial_teams (name, stadium, slug, is_deleted, players) VALUES ('Test Team', 'Test Arena', 'test', false, '[{\"Id\":0,\"Name\":\"Test Player\",\"Overall\":99,\"Birthday\":\"1979-05-22\",\"Position\":0,\"IsDeleted\":false,\"KitNumber\":99}]')";
+
+        await using var cmd = new NpgsqlCommand(insertUserQuery, connection);
+        await cmd.ExecuteNonQueryAsync();
+
+        cmd.CommandText = insertCareerQuery;
+        await cmd.ExecuteNonQueryAsync();
+
+        cmd.CommandText = insertInitialTeamQuery;
+        await cmd.ExecuteNonQueryAsync();
+
+        await connection.CloseAsync();
     }
 }

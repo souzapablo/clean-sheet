@@ -1,6 +1,4 @@
 ﻿using CleanSheet.Application.Features.Careers.Queries.GeyById;
-using CleanSheet.Domain.Entities;
-using FluentAssertions;
 
 namespace CleanSheet.UnitTests.Features.Careers;
 
