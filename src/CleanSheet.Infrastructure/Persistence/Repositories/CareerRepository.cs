@@ -19,6 +19,8 @@ public class CareerRepository(AppDbContext context) : ICareerRepository
 
     public async Task<Career?> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
         await context.Careers
+            .Include(career => career.Teams)
+            .ThenInclude(team => team.Squad)
             .SingleOrDefaultAsync(
                 career => !career.IsDeleted && career.Id == id, 
                 cancellationToken: cancellationToken);

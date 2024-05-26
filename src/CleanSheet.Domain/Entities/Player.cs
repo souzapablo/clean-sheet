@@ -15,4 +15,17 @@ public class Player(
     public int Overall { get; private set; } = overall;
     public DateOnly Birthday { get; private set; } = birthday;
     public PlayerPosition Position { get; private set; } = position;
+    public int Age => CalculateAge();
+
+    private int CalculateAge()
+    {
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        var age = today.Year - Birthday.Year;
+
+        if (Birthday > today.AddYears(-age))
+            age--;
+        
+        return age;
+    }
 }
