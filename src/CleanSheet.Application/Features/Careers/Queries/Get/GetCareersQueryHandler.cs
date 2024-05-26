@@ -15,6 +15,7 @@ public class GetCareersQueryHandler(ICareerRepository careerRepository)
             new CareerResponse(
                 career.Id,
                 career.Manager,
+                career.CurrentTeam.Name,
                 career.LastUpdate));
 
         return Result<IEnumerable<CareerResponse>>.Success(result);

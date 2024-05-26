@@ -1,6 +1,7 @@
 ﻿using CleanSheet.Application.Features.Careers.Commands.Create;
 using CleanSheet.Application.Features.Careers.Commands.Delete;
 using CleanSheet.Application.Features.Careers.Queries.Get;
+using CleanSheet.Application.Features.Careers.Queries.GetByUser;
 using CleanSheet.Application.Features.Careers.Queries.GeyById;
 using FluentAssertions;
 
@@ -124,6 +125,35 @@ public class CareersTests(IntegrationTestWebAppFactory factory)
         // Assert
         testResult.IsSuccess.Should().BeFalse();
         testResult.Data.Should().Be(0);
+        testResult.Error?.Code.Should().Be("UserNotFound");
+    }
+
+    [Fact(DisplayName = "Get career by user id should list user careers given a valid user id")]
+    public async Task GetCareerByUserIdQuery_Should_ListUserCareers_Given_AValidUserIs()
+    {
+        // Arrange
+        var query = new GetCareerByUserIdQuery(1L);
+
+        // Act
+        var testResult = await Sender.Send(query);
+
+        // Assert
+        testResult.IsSuccess.Should().BeTrue();
+        testResult.Data.Should().NotBeEmpty();
+    }
+
+    [Fact(DisplayName = "Get career by user id should return user not found given a invalid user id")]
+    public async Task GetCareerByUserIdQuery_Should_ReturnUserNotFoundError_Given_AnInvalidUserIs()
+    {
+        // Arrange
+        var query = new GetCareerByUserIdQuery(long.MaxValue);
+
+        // Act
+        var testResult = await Sender.Send(query);
+
+        // Assert
+        testResult.IsSuccess.Should().BeFalse();
+        testResult.Data.Should().BeNull();
         testResult.Error?.Code.Should().Be("UserNotFound");
     }
 }

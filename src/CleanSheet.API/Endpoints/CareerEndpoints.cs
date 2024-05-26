@@ -2,6 +2,7 @@
 using CleanSheet.Application.Features.Careers.Commands.Create;
 using CleanSheet.Application.Features.Careers.Commands.Delete;
 using CleanSheet.Application.Features.Careers.Queries.Get;
+using CleanSheet.Application.Features.Careers.Queries.GetByUser;
 using CleanSheet.Application.Features.Careers.Queries.GeyById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,16 +21,17 @@ public static class CareerEndpoints
         group.MapGet("", GetAsync);
         group.MapGet("{id:long}", GetByIdAsync);
         group.MapDelete("{id:long}", DeleteAsync);
+        group.MapGet("user/{id:long}", GetByUserAsync);
     }
 
     private static async Task<IResult> CreateAsync(
-        CreateCareerRequest request, 
+        CreateCareerRequest request,
         ISender sender)
     {
         var command = new CreateCareerCommand(request.UserId, request.Manager, request.TeamSlug);
 
         var result = await sender.Send(command);
-        
+
         return TypedResults.Created($"/api/v1/careers/{result.Data}", result);
     }
 
@@ -43,7 +45,7 @@ public static class CareerEndpoints
     }
 
     private static async Task<IResult> GetByIdAsync(
-        ISender sender, 
+        ISender sender,
         [FromRoute] long id)
     {
         var query = new GetCareerByIdQuery(id);
@@ -52,7 +54,7 @@ public static class CareerEndpoints
 
         if (!result.IsSuccess)
             return FailureExtensions.Handle(result);
-        
+
         return TypedResults.Ok(result);
     }
 
@@ -66,7 +68,21 @@ public static class CareerEndpoints
 
         if (!result.IsSuccess)
             return FailureExtensions.Handle(result);
-        
+
         return TypedResults.NoContent();
+    }
+
+    private static async Task<IResult> GetByUserAsync(
+        ISender sender,
+        [FromRoute] long id)
+    {
+        var query = new GetCareerByUserIdQuery(id);
+
+        var result = await sender.Send(query);
+
+        if (!result.IsSuccess)
+            return FailureExtensions.Handle(result);
+
+        return TypedResults.Ok(result);
     }
 }

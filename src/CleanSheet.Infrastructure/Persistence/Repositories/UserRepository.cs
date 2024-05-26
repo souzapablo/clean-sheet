@@ -17,5 +17,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
 
     public async Task<User?> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
         await context.Users
+            .Include(user => user.Careers)
+            .ThenInclude(career => career.Teams)
             .SingleOrDefaultAsync(user => user.Id == id, cancellationToken);
 }

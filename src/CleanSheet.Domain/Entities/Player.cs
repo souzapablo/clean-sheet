@@ -16,6 +16,8 @@ public class Player(
     public DateOnly Birthday { get; private set; } = birthday;
     public PlayerPosition Position { get; private set; } = position;
     public int Age => CalculateAge();
+    public Team Team { get; private set; } = null!;
+    public long TeamId { get; private set; }
 
     private int CalculateAge()
     {

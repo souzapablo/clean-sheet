@@ -11,6 +11,8 @@ public class Career(string manager) : Entity
     public User User { get; private set; } = null!;
     public long UserId { get; private set; }
     public IReadOnlyCollection<Team> Teams => _teams;
+    public Team CurrentTeam => _teams.OrderByDescending(t => t.Id)
+        .First();
 
     public void SetInitialTeam(string teamName, string teamStadium, IReadOnlyCollection<Player> squad)
     {

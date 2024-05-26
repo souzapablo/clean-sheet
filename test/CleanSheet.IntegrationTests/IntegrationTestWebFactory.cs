@@ -67,6 +67,7 @@ public class IntegrationTestWebAppFactory
         var insertUserQuery = $"INSERT INTO users (name, email, password_hash, role, is_deleted) VALUES ('Test', 'test@email.com', '{passwordHash}', 0, false)";
         var insertCareerQuery = "INSERT INTO careers (manager, user_id, is_deleted, last_update) VALUES ('Ancelotti', 1, false, now())";
         var insertInitialTeamQuery = "INSERT INTO initial_teams (name, stadium, slug, is_deleted, players) VALUES ('Test Team', 'Test Arena', 'test', false, '[{\"Id\":0,\"Name\":\"Test Player\",\"Overall\":99,\"Birthday\":\"1979-05-22\",\"Position\":0,\"IsDeleted\":false,\"KitNumber\":99}]')";
+        var insertTeamQuery = "INSERT INTO teams (name, stadium, career_id, is_deleted) VALUES ('Test Team', 'Test Arena', 1, false)";
 
         await using var cmd = new NpgsqlCommand(insertUserQuery, connection);
         await cmd.ExecuteNonQueryAsync();
@@ -75,6 +76,9 @@ public class IntegrationTestWebAppFactory
         await cmd.ExecuteNonQueryAsync();
 
         cmd.CommandText = insertInitialTeamQuery;
+        await cmd.ExecuteNonQueryAsync();
+
+        cmd.CommandText = insertTeamQuery;
         await cmd.ExecuteNonQueryAsync();
 
         await connection.CloseAsync();

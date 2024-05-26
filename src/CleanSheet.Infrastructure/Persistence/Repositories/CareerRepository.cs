@@ -14,16 +14,16 @@ public class CareerRepository(AppDbContext context) : ICareerRepository
 
     public async Task<List<Career>> ListAsync(CancellationToken cancellationToken = default) =>
         await context.Careers
-            .Where(career => !career.IsDeleted)
-            .ToListAsync(cancellationToken: cancellationToken);
+            .Include(career => career.Teams)
+            .ToListAsync(cancellationToken);
 
     public async Task<Career?> GetByIdAsync(long id, CancellationToken cancellationToken = default) =>
         await context.Careers
             .Include(career => career.Teams)
             .ThenInclude(team => team.Squad)
             .SingleOrDefaultAsync(
-                career => !career.IsDeleted && career.Id == id, 
-                cancellationToken: cancellationToken);
+                career => career.Id == id, 
+                cancellationToken);
 
     public async Task UpdateAsync(Career career, CancellationToken cancellationToken = default)
     {
