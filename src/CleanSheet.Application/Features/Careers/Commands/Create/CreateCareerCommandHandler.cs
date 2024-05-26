@@ -8,7 +8,8 @@ namespace CleanSheet.Application.Features.Careers.Commands.Create;
 
 public class CreateCareerCommandHandler(
     ICareerRepository careerRepository,
-    IUserRepository userRepository) : IRequestHandler<CreateCareerCommand, Result<long>>
+    IUserRepository userRepository,
+    IInitialTeamRepository initialTeamRepository) : IRequestHandler<CreateCareerCommand, Result<long>>
 {
     public async Task<Result<long>> Handle(CreateCareerCommand request, CancellationToken cancellationToken)
     {
@@ -20,6 +21,13 @@ public class CreateCareerCommandHandler(
         var newCareer = new Career(request.Manager);
 
         user.AddCareer(newCareer);
+
+        var initialTeam = await initialTeamRepository.GetBySlugAsync(request.InitialTeam, cancellationToken);
+
+        if (initialTeam is null)
+            return Result<long>.Failure(InitialTeamErrors.InitialTeamNotFound(request.InitialTeam));
+
+        newCareer.SetInitialTeam(initialTeam.Name, initialTeam.Stadium, initialTeam.Players);
 
         await careerRepository.AddAsync(newCareer, cancellationToken);
         

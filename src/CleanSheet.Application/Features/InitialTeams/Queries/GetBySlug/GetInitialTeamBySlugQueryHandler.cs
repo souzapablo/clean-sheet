@@ -10,7 +10,7 @@ public class GetInitialTeamBySlugQueryHandler(
 {
     public async Task<Result<InitialTeamResponse>> Handle(GetInitialTeamBySlugQuery request, CancellationToken cancellationToken)
     {
-        var initialTeam = await initialTeamRepository.GetInitialTeamBySlugAsync(request.Slug, cancellationToken);
+        var initialTeam = await initialTeamRepository.GetBySlugAsync(request.Slug, cancellationToken);
 
         if (initialTeam is null)
             return Result<InitialTeamResponse>.Failure(InitialTeamErrors.InitialTeamNotFound(request.Slug));

@@ -1,3 +1,6 @@
 ﻿namespace CleanSheet.Application.Features.Careers.Commands.Create;
 
-public record CreateCareerRequest(long UserId, string Manager);
+public record CreateCareerRequest(
+    long UserId, 
+    string Manager,
+    string TeamSlug);

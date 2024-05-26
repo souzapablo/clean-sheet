@@ -12,7 +12,7 @@ public class CreateInitialTeamCommandHandlerTests
         // Arrange
         var command = new CreateInitialTeamCommand("Chelsea", "Stamford Bridge");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .ReturnsNull();
         
         // Act
@@ -30,7 +30,7 @@ public class CreateInitialTeamCommandHandlerTests
         var command = new CreateInitialTeamCommand("Chelsea", "Stamford Bridge");
         var initialTeam = new InitialTeam("Chelsea", "Stamford Bridge", "chelsea");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .Returns(initialTeam);
         
         // Act

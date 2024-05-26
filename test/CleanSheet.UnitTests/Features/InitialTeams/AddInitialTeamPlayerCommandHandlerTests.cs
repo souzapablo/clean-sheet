@@ -15,7 +15,7 @@ public class AddInitialTeamPlayerCommandHandlerTests
         
         var initialTeam = new InitialTeam("Chelsea", "Stamford Bridge", "chelsea");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .Returns(initialTeam);
 
         // Act
@@ -33,7 +33,7 @@ public class AddInitialTeamPlayerCommandHandlerTests
         var command = new AddInitialTeamPlayerCommand("chelsea", "Palmer", 20, 79, new DateOnly(2002, 05, 6),
             PlayerPosition.Rm | PlayerPosition.Rw | PlayerPosition.Cam);
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .ReturnsNull();
 
         // Act

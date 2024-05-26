@@ -13,7 +13,7 @@ public class GetInitialTeamByIdQueryHandlerTests
 
         var query = new GetInitialTeamBySlugQuery("chelsea");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .Returns(initialTeam);
 
         // Act
@@ -32,7 +32,7 @@ public class GetInitialTeamByIdQueryHandlerTests
 
         var query = new GetInitialTeamBySlugQuery("chelsea");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .ReturnsNull();
 
         // Act

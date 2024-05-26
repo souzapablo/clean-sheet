@@ -10,6 +10,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<Career> Careers { get; private set; } = null!;
     public DbSet<InitialTeam> InitialTeams { get; private set; } = null!;
     public DbSet<User> Users { get; private set; } = null!;
+    public DbSet<Team> Teams { get; private set; } = null!;
+    public DbSet<Player> Players { get; private set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

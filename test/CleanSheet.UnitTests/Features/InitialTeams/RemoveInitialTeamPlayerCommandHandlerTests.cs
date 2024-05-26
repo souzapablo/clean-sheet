@@ -15,7 +15,7 @@ public class RemoveInitialTeamPlayerCommandHandlerTests
 
         var command = new RemoveInitialTeamPlayerCommand("chelsea", "Cole Palmer");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .Returns(initialTeam);
 
         // Act
@@ -35,7 +35,7 @@ public class RemoveInitialTeamPlayerCommandHandlerTests
 
         var command = new RemoveInitialTeamPlayerCommand("chelsea", "Cole Palmer");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .Returns(initialTeam);
 
         // Act
@@ -52,7 +52,7 @@ public class RemoveInitialTeamPlayerCommandHandlerTests
         // Arrange
         var command = new RemoveInitialTeamPlayerCommand("chelsea", "Cole Palmer");
 
-        _initialTeamRepository.GetInitialTeamBySlugAsync(Arg.Any<string>())
+        _initialTeamRepository.GetBySlugAsync(Arg.Any<string>())
             .ReturnsNull();
 
         // Act

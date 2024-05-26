@@ -13,7 +13,7 @@ public class CreateInitialTeamCommandHandler(IInitialTeamRepository repository) 
     {
         var slug = request.Name.CreateSlug();
 
-        var initialTeam = await repository.GetInitialTeamBySlugAsync(slug, cancellationToken);
+        var initialTeam = await repository.GetBySlugAsync(slug, cancellationToken);
         
         if (initialTeam is not null)
             return Result<long>.Failure(InitialTeamErrors.InitialTeamAlreadyExists(slug));

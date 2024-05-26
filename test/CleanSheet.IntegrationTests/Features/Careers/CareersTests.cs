@@ -42,7 +42,7 @@ public class CareersTests(IntegrationTestWebAppFactory factory)
     public async Task DeleteCareerCommand_Should_DeleteCareer_Given_AValidId()
     {
         // Arrange
-        var command = new CreateCareerCommand(1L, "Jorge Jesus");
+        var command = new CreateCareerCommand(1L, "Jorge Jesus", "test");
         var createdCareer = await Sender.Send(command);
         var query = new DeleteCareerCommand(createdCareer.Data);
 
@@ -86,7 +86,7 @@ public class CareersTests(IntegrationTestWebAppFactory factory)
     public async Task CreateCareerCommand_Should_CreateANewCareer_When_InputIsValid()
     {
         // Arrange
-        var command = new CreateCareerCommand(1L, "Abel Ferreira");
+        var command = new CreateCareerCommand(1L, "Abel Ferreira", "test");
         
         // Act
         var testResult = await Sender.Send(command);
@@ -101,7 +101,7 @@ public class CareersTests(IntegrationTestWebAppFactory factory)
     public async Task CreateCareerCommand_Should_ReturnValidationError_When_InputIsInvalid()
     {
         // Arrange
-        var command = new CreateCareerCommand(1L, "GG");
+        var command = new CreateCareerCommand(1L, "GG", "test");
         
         // Act
         var testResult = await Sender.Send(command);
@@ -116,7 +116,7 @@ public class CareersTests(IntegrationTestWebAppFactory factory)
     public async Task CreateCareerCommand_Should_ReturnUserNotFoundError_When_UserIsInvalid()
     {
         // Arrange
-        var command = new CreateCareerCommand(long.MaxValue, "Errinho");
+        var command = new CreateCareerCommand(long.MaxValue, "Errinho", "test");
 
         // Act
         var testResult = await Sender.Send(command);
